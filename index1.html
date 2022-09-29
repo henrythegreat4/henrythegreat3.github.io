@@ -1,5 +1,6 @@
 <DOCTYPE html>
   <html>
+	  <img id="dood" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAQCAYAAABQrvyxAAABaUlEQVRIS91VIXICQRDcewCSD1AxEQgeAA4VERGVJ/CDGBSGH+QJURGIqFQMH4iIICLBRsSkigcc1VfVqbm52Z29LQys4biZ7umemdqrwpmf6sz1h8s08HV3U2MyV88vpkEv7k31lPiowOnbd/j5+yyOew2I8eeYQw7xHYEkeNrvw/1o1JmCF4dwWUBPw8OnsOTGL/W1DJBcFpVr5MWtAn3wOeZ0Q/4NWOLkGnhxKd5qgIf3mhPDn8xAiUA2KIWNxdikLAMpEq5IqQjgS7Ew4RpIXYme+JwOx1bPu4rJ3cvA4nccHocfDTeeX7frBt93fcjTtwFWfdOALCDv5fnsofnA8cwOm7B837VWQBaBwNXkupY5iOPQPLlkEzQHc3R9cHQMsLNI1kVIwPdaHAVvB7ctgbIwsSl+COak5TVs1e98yEgcKyBN6Rz8x1S0AWufLaycjFUfcfkez9kGYoRaXGmeheOEZQ1t4AixsZNNxZ75xAAAAABJRU5ErkJggg=="></img>
 	  <div class="instructions">hello. this is the devs. controls= down arrow to go down (careful you cant grow back!) and left and right to move and up is to jump
 	  <div class="wall"><div>
 	  <audio loop autoplay muted src="BeepBox-Song (6) (1).mp3" type="audio/mpeg" id = "aud">
@@ -75,6 +76,53 @@
     }
   </style>
   <script>
+      const types = {
+  dood: {
+    awake: (state) => {
+      state.frame = 0
+      state.ticks = 0
+      state.vx = 0
+      state.vy = 0
+      state.grounded = false
+    },
+    update: (state, tick, input) => {
+      const gravityIncrement = 0.08
+      const maxGravity = 1
+      const jumpPower = 3
+      const minJumpPower = 0.1
+      const speedIncrement = 0.05
+      const maxSpeed = 0.9
+  
+      state.vy = state.vy < maxGravity ? state.vy + gravityIncrement : maxGravity
+      state.y += state.vy
+   
+      if (input.up && state.grounded) state.vy = -jumpPower
+      if (!input.up && !state.grounded && state.vy < -minJumpPower) state.vy = -minJumpPower
+      if (input.right) {
+        state.flip = false
+        state.vx = state.vx < maxSpeed ? state.vx + speedIncrement : maxSpeed
+        state.x += state.vx
+        state.animation = state.vx < 0
+          ? animations.slide : state.grounded
+          ? animations.run : state.vy < 0
+          ? animations.jump : animations.fall
+      } else if (input.left) {
+        state.flip = true
+        state.vx = state.vx > -maxSpeed ? state.vx - speedIncrement : -maxSpeed
+        state.x += state.vx
+        state.animation = state.vx > 0
+          ? animations.slide : state.grounded
+          ? animations.run : state.vy < 0
+          ? animations.jump : animations.fall
+      } else {
+        state.vx = Math.abs(state.vx) > 0.2 ? state.vx * 0.89 : 0
+        state.x += state.vx
+        state.animation = state.grounded
+          ? Math.abs(state.vx) > 0
+          ? animations.slide : animations.idle : state.vy < 0
+          ? animations.jump : animations.fall
+      }
+	    
     var x = document.getElementById("aud");
     x.muted = false;
     x.load();
@@ -94,8 +142,8 @@
    "  xx                                      o o                                x  ",
    "  x                     o                                                    x  ",
    "  x                                      xxxxx                             o x  ",
-   "  x    e     xxxx       o                                                    x  ",
-   "  x  @ e     x  x                                                xxxxx       x  ",
+   "  x          xxxx       o                                                    x  ",
+   "  x  @       x  x                                                xxxxx       x  ",
    "  xxxxxxxxxxxx  xxxxxxxxxxxxxxx   xxxxxxxxxxxxxxxxxxxx     xxxxxxx   xxxxxxxxx  ",
    "                              x   x                  x     x                    ",
    "                              x!!!x                  x!!!!!x                    ",
@@ -247,10 +295,10 @@
    "                  xxxxxxxxxxxxxx                     x     x    x    x     x    x                             ",
    "                 xxxxxxxxxxxxxxx                     x     x    x    x     x    x                             ",
    "                xxxxxxxxxxxxxxxx                     x     x    x    x     x    x                             ",
-   "               xxxxxxxxxxxxxxxxx        x  x         x     x    x    x     x    x                             ",
-   "              xxxxxxxxxxxxxxxxxx        x  x         x     x    x    x     x    x                             ",
-   "             xxxxxxxxxxxxxxxxxxx      x      x       x     x    x    x     x    x                             ",
-   "            xxxxxxxxxxxxxxxxxxxx       xxxxxx        x     x    X    x     x    x                             ",
+   "               xxxxxxxxxxxxxxxxx                     x     x    x    x     x    x                             ",
+   "              xxxxxxxxxxxxxxxxxx                     x     x    x    x     x    x                             ",
+   "             xxxxxxxxxxxxxxxxxxx                     x     x    x    x     x    x                             ",
+   "            xxxxxxxxxxxxxxxxxxxx                     x     x    X    x     x    x                             ",
    "           xxxxxxxxxxxxxxxxxxxxx                     x     x    x    x     x    x                             ",
    "          xxxxxxxxxxxxxxxxxxxxxx                     x     x    x    x     x    x                             ",
    "         xxxxxxxxxxxxxxxxxxxxxxx                     x     x    x    x     x    x                             ",
@@ -262,8 +310,69 @@
    " @ xxxxxxxxxxxxxxxxxxxxxxxxxxxxx!!!!!!!!!!!!!!!!!!!!!x!!!!!x!!!!x!!!!x!!!!!x!!!!x!!!!xxxxxxxxxxxxxxxxxxxxxxxxx",
    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",],
 ];
+       const collisions = tileCollision(state, state.flip ? 0 : 2, state.flip ? 5 : 7, 3, 16)
+      
+      state.grounded = collisions.bottom
+      
+      setCamera(Math.floor(state.x), state.flip)
+    }
+  }
+}
+      function tick (time) {
+  state.tick += 1
 
+  state.objects.forEach(thing => thing.type.update(thing, state.tick, state.input, state.camera))
+  
+  context.clearRect(state.camera.px, 0, canvas.width, canvas.height)
+  drawLevel(context, level, state.camera)
+  state.objects.forEach(thing => drawSprite(context, thing, state.camera))
 
+  window.requestAnimationFrame(tick)
+}
+
+function drawSprite (context, state, camera) {
+  const { type, animation, frame, ticks, x, y, flip } = state
+  const { image, width, height, frames } = animation
+  
+  state.ticks -= 1
+  if (state.frame >= animation.frames.length) state.frame = 0
+  if (state.ticks >= animation.frames[state.frame][1]) state.ticks = animation.frames[state.frame][1]
+  
+  if (state.ticks <= 0) {
+    state.frame += 1
+    if (state.frame >= animation.frames.length) state.frame = 0
+    
+    state.ticks = animation.frames[state.frame][1]
+  }
+
+  context.save()
+  context.translate(Math.floor(x + width / 2), Math.floor(y + height / 2))
+  context.scale(flip ? -1 : 1, 1)
+  
+  context.drawImage(animation.image, animation.frames[state.frame][0] * width, 0,
+                    width, height, Math.floor(-width/2), Math.floor(-height/2), width, height)
+
+  context.restore()
+}
+	  
+const dood = document.getElementById('dood')
+const animations = {
+  idle:  { image: dood, width: 8, height: 16, frames: [[0, 1]] },
+  run:   { image: dood, width: 8, height: 16, frames: [[2, 7], [1, 7], [2, 7], [3, 7]] },
+  slide: { image: dood, width: 8, height: 16, frames: [[4, 1]] },
+  jump:  { image: dood, width: 8, height: 16, frames: [[1, 1]] },
+  fall:  { image: dood, width: 8, height: 16, frames: [[5, 1]] }
+}
+function input ({ key }, active) {
+  switch (key) {
+    case 'd':
+    case 'ArrowRight': return state.input.right = active
+    case 'a':
+    case 'ArrowLeft': return state.input.left = active
+    case 'w':
+    case 'ArrowUp': return state.input.up = active
+  }
+}
 function Vector(x, y) {
 	this.x = x; this.y = y;
 }
@@ -280,7 +389,6 @@ Vector.prototype.times = function(scale) {
 var actorchars =  {
 	"@": Player,
 	"o": Coin,
-	"e": Coin1,
 	"=": Lava,
 	"|": Lava,
 	"v": Lava
@@ -314,8 +422,6 @@ function Coin(pos) {
 	this.wobble = Math.random() * Math.PI * 2;
 }
 Coin.prototype.type = "coin";
-	  
-Coin.prototype.type = "coin1";
 
 Level.prototype.isFinished = function() {
   return this.status != null && this.finishDelay < 0;
@@ -576,7 +682,7 @@ Level.prototype.playerTouched = function(type, actor) {
   }
 };
 
-var arrowCodes = {37: "left", 38: "up", 39: "right", 40: "crouch", 65: "left", 87: "up", 68: "right", 83: "crouch"};
+
 
 function trackKeys(codes) {
   var pressed = Object.create(null);
@@ -607,7 +713,6 @@ function runAnimation(frameFunc) {
   requestAnimationFrame(frame);
 }
 
-var arrows = trackKeys(arrowCodes);
 
 function runLevel(level, Display, andThen) {
   var display = new Display(document.body, level);
