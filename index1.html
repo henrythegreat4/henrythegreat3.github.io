@@ -54,11 +54,6 @@
 	background-repeat: none;
 	border-radius: 50%;
     }
-.coin1{
-	background: #fff;
-	background-repeat: none;
-	border-radius: 50%;
-    }
 .player{
 	background: #335699;
 	box-shadow: none;
@@ -98,7 +93,7 @@
    "                                                                            xx  ",
    "  xx                                      o o                                x  ",
    "  x               =     o      =                                             x  ",
-   "  x          U                           xxxxx       =      =      x       o x  ",
+   "  x          y                           xxxxx       =      =      x       o x  ",
    "  x          xxxx       o                                                    x  ",
    "  x  @       x  x                       =                        xxxxx       x  ",
    "  xxxxxxxxxxxx  xxxxxxxxxxxxxxx   xxxxxxxxxxxxxxxxxxxx     xxxxxxx   xxxxxxxxx  ",
@@ -280,6 +275,10 @@ function Coin(pos) {
 	this.wobble = Math.random() * Math.PI * 2;
 }
 Coin.prototype.type = "coin";
+
+Level.prototype.isFinished = function() {
+  return this.status != null && this.finishDelay < 0;
+};
 
 function Level(plan) {
 	this.width = plan[0].length;
@@ -467,6 +466,8 @@ Coin.prototype.act = function(step) {
   var wobblePos = Math.sin(this.wobble) * wobbleDist;
   this.pos = this.basePos.plus(new Vector(0, wobblePos));
 };
+
+
 var playerXSpeed = 10;
 var playercrouch = .01;
 Player.prototype.moveX = function(step, level, keys) {
@@ -531,7 +532,7 @@ Level.prototype.playerTouched = function(type, actor) {
     });
     if (!this.actors.some(function(actor) {
       return actor.type == "coin";
-    }))  {
+    })) {
       this.status = "won";
       this.finishDelay = 1;
     }
