@@ -254,6 +254,8 @@ function Player(pos) {
 	this.speed = new Vector(0, 0);
 }
 Player.prototype.type = "player";
+	  
+	  
 function Wall3(pos) {
 	this.pos = pos.plus(new Vector(0, -.5));
 	this.size = new Vector(.5, 1);
@@ -304,6 +306,8 @@ function Level(plan) {
 				fieldType = "wall";
 			else if (ch === "w")
 				fieldType = "wall2";
+			else if (ch === "y")
+				fieldType = "wall3";
 			else if (ch === "z")
 				fieldType = "wall4";
 			else if (ch === "!")
