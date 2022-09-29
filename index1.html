@@ -93,7 +93,7 @@
    "                                                                            xx  ",
    "  xx                                      o o                                x  ",
    "  x               =     o      =                                             x  ",
-   "  x                                      xxxxx       =      =      x       o x  ",
+   "  x          y                           xxxxx       =      =      x       o x  ",
    "  x          xxxx       o                                                    x  ",
    "  x  @       x  x                       =                        xxxxx       x  ",
    "  xxxxxxxxxxxx  xxxxxxxxxxxxxxx   xxxxxxxxxxxxxxxxxxxx     xxxxxxx   xxxxxxxxx  ",
@@ -242,6 +242,7 @@ Vector.prototype.times = function(scale) {
 var actorchars =  {
 	"@": Player,
 	"o": Coin,
+	"y": Wall3,
 	"=": Lava,
 	"|": Lava,
 	"v": Lava
@@ -297,8 +298,6 @@ function Level(plan) {
 				fieldType = "wall";
 			else if (ch === "w")
 				fieldType = "wall2";
-			else if (ch === "y")
-				fieldType = "wall3";
 			else if (ch === "z")
 				fieldType = "wall4";
 			else if (ch === "!")
@@ -523,6 +522,10 @@ Level.prototype.playerTouched = function(type, actor) {
     this.status = "lost";
     this.finishDelay = 1;
   }
+	if (type == "Wall3" && this.status == null) {
+    this.status = "won";
+    this.finishDelay = 1;
+{
 	if (type == "Lava" && this.status == null) {
     this.status = "lost";
     this.finishDelay = 1;
