@@ -94,8 +94,8 @@
    "  xx                                      o o                                x  ",
    "  x                     o                                                    x  ",
    "  x                                      xxxxx                             o x  ",
-   "  x          xxxx       o                                                    x  ",
-   "  x  @       x  x                                                xxxxx       x  ",
+   "  x    e     xxxx       o                                                    x  ",
+   "  x  @ e     x  x                                                xxxxx       x  ",
    "  xxxxxxxxxxxx  xxxxxxxxxxxxxxx   xxxxxxxxxxxxxxxxxxxx     xxxxxxx   xxxxxxxxx  ",
    "                              x   x                  x     x                    ",
    "                              x!!!x                  x!!!!!x                    ",
@@ -178,9 +178,9 @@
    "  x                xxx        xxxxxxxxxxxxx  x oo x    x oo x    x oo  xx xx                    xxx        x  ",
    "  x      @          x         x           x!!x    x!!!!x    x!!!!x    xx   xx                    x         x  ",
    "  xxxxxxxxxxxxxxxxxxxxxxxxxxxxx           xxxxxxxxxxxxxxxxxxxxxxxxxxxxx     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  ",
-   "                                                                                                              ",
-   "                                                                                                              "],                                                                                                          "],
- ["                                                                                                               ",
+   "                                                                                                             ",
+   "                                                                                                             "],
+ ["                                                                                                              ",
    "                                                                                                              ",
    "                                                           ooooooooooooooooooooooooooooooooooooooo            ",
    "                                                          xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx         ",
@@ -212,8 +212,8 @@
    "                                                      x                                x          x           ",
    "              xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  x  x  xxxxxxxxxxxxxxxxxxxxxxxxxx         o        x            ",
    "   @ *                                                                         x         x      x             ",
-   "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",],
-   "                                                                                                              ",
+   "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "                                                                                                              "],
   ["                                                                                                              ",  
    "                                                                                                              ",
    "                                                                                                              ",
@@ -247,10 +247,10 @@
    "                  xxxxxxxxxxxxxx                     x     x    x    x     x    x                             ",
    "                 xxxxxxxxxxxxxxx                     x     x    x    x     x    x                             ",
    "                xxxxxxxxxxxxxxxx                     x     x    x    x     x    x                             ",
-   "               xxxxxxxxxxxxxxxxx                     x     x    x    x     x    x                             ",
-   "              xxxxxxxxxxxxxxxxxx                     x     x    x    x     x    x                             ",
-   "             xxxxxxxxxxxxxxxxxxx                     x     x    x    x     x    x                             ",
-   "            xxxxxxxxxxxxxxxxxxxx                     x     x    X    x     x    x                             ",
+   "               xxxxxxxxxxxxxxxxx        x  x         x     x    x    x     x    x                             ",
+   "              xxxxxxxxxxxxxxxxxx        x  x         x     x    x    x     x    x                             ",
+   "             xxxxxxxxxxxxxxxxxxx      x      x       x     x    x    x     x    x                             ",
+   "            xxxxxxxxxxxxxxxxxxxx       xxxxxx        x     x    X    x     x    x                             ",
    "           xxxxxxxxxxxxxxxxxxxxx                     x     x    x    x     x    x                             ",
    "          xxxxxxxxxxxxxxxxxxxxxx                     x     x    x    x     x    x                             ",
    "         xxxxxxxxxxxxxxxxxxxxxxx                     x     x    x    x     x    x                             ",
@@ -260,8 +260,8 @@
    " *   xxxxxxxxxxxxxxxxxxxxxxxxxxx                     x     x    x    x     x    x     xxxxxxxxxxxxxxxxxxxxxxxx",
    "    xxxxxxxxxxxxxxxxxxxxxxxxxxxx                     x     x    x    x     x    x                           o ",
    " @ xxxxxxxxxxxxxxxxxxxxxxxxxxxxx!!!!!!!!!!!!!!!!!!!!!x!!!!!x!!!!x!!!!x!!!!!x!!!!x!!!!xxxxxxxxxxxxxxxxxxxxxxxxx",
-   "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",];
-  
+   "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",],
+];
 
 
 function Vector(x, y) {
@@ -280,6 +280,7 @@ Vector.prototype.times = function(scale) {
 var actorchars =  {
 	"@": Player,
 	"o": Coin,
+	"e": Coin1,
 	"=": Lava,
 	"|": Lava,
 	"v": Lava
@@ -313,6 +314,8 @@ function Coin(pos) {
 	this.wobble = Math.random() * Math.PI * 2;
 }
 Coin.prototype.type = "coin";
+	  
+Coin.prototype.type = "coin1";
 
 Level.prototype.isFinished = function() {
   return this.status != null && this.finishDelay < 0;
@@ -560,11 +563,7 @@ Level.prototype.playerTouched = function(type, actor) {
   if (type == "lava" && this.status == null) {
     this.status = "lost";
     this.finishDelay = 1;
-  } 
-  if (type == "Lava" && this.status == null) {
-    this.status = "lost";
-    this.finishDelay = 1;
-  }else if (type == "coin") {
+  } else if (type == "coin") {
     this.actors = this.actors.filter(function(other) {
       return other != actor;
     });
