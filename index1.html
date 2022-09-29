@@ -242,7 +242,6 @@ Vector.prototype.times = function(scale) {
 var actorchars =  {
 	"@": Player,
 	"o": Coin,
-	"y": Wall3,
 	"=": Lava,
 	"|": Lava,
 	"v": Lava
@@ -254,14 +253,6 @@ function Player(pos) {
 	this.speed = new Vector(0, 0);
 }
 Player.prototype.type = "player";
-	  
-	  
-function Wall3(pos) {
-	this.pos = pos.plus(new Vector(0, -.5));
-	this.size = new Vector(.5, 1);
-	this.speed = new Vector(0, 0);
-}
-Wall3.prototype.type = "wall3";
 
 function Lava(pos, ch) {
 	this.pos = pos;
@@ -532,10 +523,6 @@ Level.prototype.playerTouched = function(type, actor) {
     this.status = "lost";
     this.finishDelay = 1;
   }
-	if (type == "Wall3" && this.status == null) {
-    this.status = "won";
-    this.finishDelay = 1;
-{
 	if (type == "Lava" && this.status == null) {
     this.status = "lost";
     this.finishDelay = 1;
