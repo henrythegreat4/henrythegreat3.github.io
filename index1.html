@@ -89,13 +89,13 @@
    "               w w  y  y y  y w w                  xx      xx    xx!xx          ",
    "               www   yy   yy  www   o o      xx                  x!!!x          ",
    "                                                                 xx!xx          ",
-   "                                   xxxxx                          xvx           ",
+   "                  =                xxxxx                          xvx           ",
    "                                                                            xx  ",
    "  xx                                      o o                                x  ",
-   "  x                     o                                                    x  ",
-   "  x                                      xxxxx                             o x  ",
+   "  x               =     o      =                                             x  ",
+   "  x                                      xxxxx       =      =      x       o x  ",
    "  x          xxxx       o                                                    x  ",
-   "  x  @       x  x                                                xxxxx       x  ",
+   "  x  @       x  x                       =                        xxxxx       x  ",
    "  xxxxxxxxxxxx  xxxxxxxxxxxxxxx   xxxxxxxxxxxxxxxxxxxx     xxxxxxx   xxxxxxxxx  ",
    "                              x   x                  x     x                    ",
    "                              x!!!x                  x!!!!!x                    ",
@@ -556,7 +556,11 @@ Level.prototype.playerTouched = function(type, actor) {
   if (type == "lava" && this.status == null) {
     this.status = "lost";
     this.finishDelay = 1;
-  } else if (type == "coin") {
+  }
+	if (type == ":Lava" && this.status == null) {
+    this.status = "lost";
+    this.finishDelay = 1;
+  }else if (type == "coin") {
     this.actors = this.actors.filter(function(other) {
       return other != actor;
     });
