@@ -254,6 +254,12 @@ function Player(pos) {
 	this.speed = new Vector(0, 0);
 }
 Player.prototype.type = "player";
+function Wall3(pos) {
+	this.pos = pos.plus(new Vector(0, -.5));
+	this.size = new Vector(.5, 1);
+	this.speed = new Vector(0, 0);
+}
+Wall3.prototype.type = "wall3";
 
 function Lava(pos, ch) {
 	this.pos = pos;
