@@ -552,7 +552,9 @@ Level.prototype.playerTouched = function(type, actor) {
     });
     if (!this.actors.some(function(actor) {
       return actor.type == "coin";
-    })) {
+    } if (!this.actors.some(function(actor) {
+      return actor.type == "coin1";
+    }))  {
       this.status = "won";
       this.finishDelay = 1;
     }
