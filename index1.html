@@ -1,48 +1,58 @@
 <DOCTYPE html>
   <html>
-	  <p id="demo"></p>
-	  <div class="instructions"><p id="demo"></p>hello. this is the devs. controls= down arrow to go down (careful you cant grow back!) and left and right to move and up is to jump
+	  <div class="instructions"><div id="MyClockDisplay" class="clock" onload="showTime()"></div>
+hello. this is the devs. controls= down arrow to go down (careful you cant grow back!) and left and right to move and up is to jump
 	  <div class="wall"><div>
 	  <audio loop autoplay muted src="BeepBox-Song (6) (1).mp3" type="audio/mpeg" id = "aud">
           </audio>
-  </html> 
+  </html>  
+		  <script>
+			  function showTime(){
+    var date = new Date();
+    var h = date.getHours(); // 0 - 23
+    var m = date.getMinutes(); // 0 - 59
+    var s = date.getSeconds(); // 0 - 59
+    var session = "AM";
+    
+    if(h == 0){
+        h = 12;
+    }
+    
+    if(h > 12){
+        h = h - 12;
+        session = "PM";
+    }
+    
+    h = (h < 10) ? "0" + h : h;
+    m = (m < 10) ? "0" + m : m;
+    s = (s < 10) ? "0" + s : s;
+    
+    var time = h + ":" + m + ":" + s + " " + session;
+    document.getElementById("MyClockDisplay").innerText = time;
+    document.getElementById("MyClockDisplay").textContent = time;
+    
+    setTimeout(showTime, 1000);
+    
+}
 
-
-<script>
-// Set the date we're counting down to
-var countDownDate = 90
-
-// Update the count down every 1 second
-var x = setInterval(function() {
-
-  // Find the distance between now and the count down date
-  var distance = countDownDate - now;
-// Update the count down every 1 second
-var x = setInterval(function() {
-
-  var distance = countDownDate - 20;
-  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-  // Display the result in the element with id="demo"
-  document.getElementById("demo").innerHTML = minutes + "m " + seconds + "s ";
-
-  // If the count down is finished, write some text
-  if (distance < 0) {
-  this.status = "lost";
-    clearInterval(x);
-    document.getElementById("demo").innerHTML = "EXPIRED";
-  }
-}, 1000);
-</script>
+showTime();
+		  </script>
+		  
   <style>
 	  @import url('https://fonts.googleapis.com/css2?family=Monoton&display=swap');
 	  @import url('https://fonts.googleapis.com/css2?family=Silkscreen&display=swap');
-	  p {
-  color: #fff;
-font-family: 'Silkscreen', cursive;
-  text-align: center;
-  font-size: 60px;
-  margin-top: 0px;
+.clock {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    color: #17D4FE;
+    font-size: 60px;
+   font-family: 'Silkscreen', cursive;
+    letter-spacing: 7px;
+   
+
+
 }
     body {
 	    
@@ -50,7 +60,7 @@ font-family: 'Silkscreen', cursive;
     }
 	.instructions {
 	color: #fff;
-	font-family: 'Silkscreen', cursive;
+	font-family: 'Monoton', cursive;
 	font-size: 10px;
 
         
