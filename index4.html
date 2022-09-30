@@ -211,7 +211,8 @@ var actorchars =  {
 	"o": Coin,
 	"=": Lava,
 	"|": Lava,
-	"v": Lava
+	"v": Lava,
+	"E": Wall3
 };
 		
 function Player(pos) {
@@ -264,8 +265,6 @@ function Level(plan) {
 				fieldType = "wall";
 			else if (ch === "w")
 				fieldType = "wall2";
-			else if (ch === "y")
-				fieldType = "wall3";
 			else if (ch === "z")
 				fieldType = "wall4";
 			else if (ch === "!")
@@ -490,7 +489,7 @@ Level.prototype.playerTouched = function(type, actor) {
     this.status = "lost";
     this.finishDelay = 1;
   }
-  if (type == "wall3" && this.status == null) {
+  if (type == "Wall3" && this.status == null) {
    var gravity = 20;
    var jumpSpeed = 30;
   
