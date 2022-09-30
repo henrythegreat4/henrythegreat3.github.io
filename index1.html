@@ -5,28 +5,8 @@
 	  <audio loop autoplay muted src="BeepBox-Song (6) (1).mp3" type="audio/mpeg" id = "aud">
           </audio>
   </html>  
-<style>
+  <style>
 	  @import url('https://fonts.googleapis.com/css2?family=Monoton&display=swap');
-
-p {
-  text-align: center;
-  font-size: 60px;
-  margin-top: 0px;
-}
-
-<p id="demo"></p>
-
-
-	  p {
-  color: #fff;
-  text-align: center;
-  font-size: 60px;
-  margin-top: 0px;
-  position: absolute;
-  left: 40%;
-  bottom: 20%
-}
-</style>
     body {
 	    
 	background: #222;
@@ -356,34 +336,7 @@ function DOMDisplay(parent, level) {
 	this.drawFrame();
 }
 
-// Set the date we're counting down to
-var countDownDate = new Date("Jan 5, 2024 15:37:25").getTime();
 
-// Update the count down every 1 second
-var x = setInterval(function() {
-
-  // Get today's date and time
-  var now = new Date().getTime();
-    
-  // Find the distance between now and the count down date
-  var distance = countDownDate - now;
-    
-  // Time calculations for days, hours, minutes and seconds
-  
-  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-    
-  // Output the result in an element with id="demo"
-  document.getElementById("demo").innerHTML = days + "d " + hours + "h "
-  + minutes + "m " + seconds + "s ";
-    
-  // If the count down is over, write some text 
-  if (distance < 0) {
-    clearInterval(x);
-    document.getElementById("demo").innerHTML = "EXPIRED";
-   this.status = "lost";
-  }
-}, 1000);
 var scale = 15;
 
 
