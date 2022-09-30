@@ -29,6 +29,9 @@
 .lava, .actor{ 
 	background: #e55;
     }
+ .lave { 
+	background: #444;
+    }
 .wall {
 	background: #444;
 	border: solid 3px #333;
@@ -209,6 +212,9 @@ Vector.prototype.times = function(scale) {
 var actorchars =  {
 	"@": Player,
 	"o": Coin,
+	"e": Lave,
+	"l": Lave,
+	"p": Lave,
 	"=": Lava,
 	"|": Lava,
 	"v": Lava,
@@ -220,7 +226,20 @@ function Player(pos) {
 	this.speed = new Vector(0, 0);
 }
 Player.prototype.type = "player";
-
+	  
+function Lave(pos, ch) {
+	this.pos = pos;
+	this.size = new Vector(1, 1);
+	if (ch === "e")
+		this.speed = new Vector(2, 0);
+	else if (ch === 'l')
+		this.speed = new Vector(0, 2);
+	else if (ch === 'p'){
+		this.speed = new Vector(0, 3); 		   
+		this.repeatPos = pos;
+	}
+}
+Lave.prototype.type = "Lave";
 function Lava(pos, ch) {
 	this.pos = pos;
 	this.size = new Vector(1, 1);
@@ -274,6 +293,12 @@ function Level(plan) {
 				fieldType = "lava";
 			else if (ch === "v"){
 				fieldType = "lava";
+			else if (ch === "e")
+				fieldType = "lave";
+			else if (ch === "l")
+				fieldType = "lave";
+			else if (ch === "p"){
+				fieldType = "lave";
 				console.log(fieldType);
 			}
 			gridLine.push(fieldType)
@@ -378,6 +403,8 @@ Level.prototype.obstacleAt = function(pos, size) {
     return "wall";
   if (yEnd > this.height)
     return "lava";
+	if (yEnd > this.height)
+    return "lave";
   for (var y = yStart; y < yEnd; y++) {
     for (var x = xStart; x < xEnd; x++) {
       var fieldType = this.grid[y][x];
@@ -413,6 +440,15 @@ Level.prototype.animate = function(step, keys) {
   }
 };
 
+Lave.prototype.act = function(step, level) {
+  var newPos = this.pos.plus(this.speed.times(step));
+  if (!level.obstacleAt(newPos, this.size))
+    this.pos = newPos;
+  else if (this.repeatPos)
+    this.pos = this.repeatPos;
+  else
+    this.speed = this.speed.times(-1);
+};
 
 Lava.prototype.act = function(step, level) {
   var newPos = this.pos.plus(this.speed.times(step));
@@ -497,6 +533,10 @@ Level.prototype.playerTouched = function(type, actor) {
     this.status = "lost";
     this.finishDelay = 1;
   }else if (type == "coin") {
+    this.actors = this.actors.filter(function(other) {
+      return other != actor;
+    }
+	  else if (type == "lave") {
     this.actors = this.actors.filter(function(other) {
       return other != actor;
     });
