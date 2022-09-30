@@ -1,59 +1,12 @@
 <DOCTYPE html>
   <html>
-	  <div class="instructions"><div id="MyClockDisplay" class="clock" onload="showTime()"></div>
-hello. this is the devs. controls= down arrow to go down (careful you cant grow back!) and left and right to move and up is to jump
+	  <div class="instructions">hello. this is the devs. controls= down arrow to go down (careful you cant grow back!) and left and right to move and up is to jump
 	  <div class="wall"><div>
 	  <audio loop autoplay muted src="BeepBox-Song (6) (1).mp3" type="audio/mpeg" id = "aud">
           </audio>
   </html>  
-		  <script>
-			  function showTime(){
-    var date = new Date();
-    var h = date.getHours(); // 0 - 23
-    var m = date.getMinutes(); // 0 - 59
-    var s = date.getSeconds(); // 0 - 59
-    var session = "AM";
-    
-    if(h == 0){
-        h = 12;
-    }
-    
-    if(h > 12){
-        h = h - 12;
-        session = "PM";
-    }
-    
-    h = (h < 10) ? "0" + h : h;
-    m = (m < 10) ? "0" + m : m;
-    s = (s < 10) ? "0" + s : s;
-    
-    var time = h + ":" + m + ":" + s + " " + session;
-    document.getElementById("MyClockDisplay").innerText = time;
-    document.getElementById("MyClockDisplay").textContent = time;
-    
-    setTimeout(showTime, 1000);
-    
-}
-
-showTime();
-		  </script>
-		  
   <style>
 	  @import url('https://fonts.googleapis.com/css2?family=Monoton&display=swap');
-	  @import url('https://fonts.googleapis.com/css2?family=Silkscreen&display=swap');
-.clock {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%);
-    color: #17D4FE;
-    font-size: 60px;
-   font-family: 'Silkscreen', cursive;
-    letter-spacing: 7px;
-   
-
-
-}
     body {
 	    
 	background: #222;
