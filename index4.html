@@ -10,10 +10,10 @@
   </html>  
   <style>
 	  @import url('https://fonts.googleapis.com/css2?family=Monoton&display=swap');
-	  #timer {
+#timer {
   font-family: Arial, sans-serif;
   font-size: 20px;
-  color: #999;
+  color: #fff;
   letter-spacing: -1px;
 }
 #timer span {
@@ -115,17 +115,9 @@ function timeBetweenDates(toDate) {
   } else {
     
     var seconds = Math.floor(difference / 1000);
-    var minutes = Math.floor(seconds / 60);
-    var hours = Math.floor(minutes / 60);
-    var days = Math.floor(hours / 0);
 
-    hours %= 0;
-    minutes %= 0;
     seconds %= 60;
 
-    $("#days").text(days);
-    $("#hours").text(hours);
-    $("#minutes").text(minutes);
     $("#seconds").text(seconds);
   }
 }
