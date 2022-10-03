@@ -1,13 +1,7 @@
 <DOCTYPE html>
   <html>
 	  <div class="instructions"><div id="timer">
-  
-<div id="timer">
-  <span id="days"></span>days
-  <span id="hours"></span>hours
-  <span id="minutes"></span>minutes
-  <span id="seconds"></span>seconds
-</div>
+
 </div>hello. this is the devs. controls= down arrow to go down (careful you cant grow back!) and left and right to move and up is to jump
 	  <div class="wall"><div>
 	  <audio loop autoplay muted src="BeepBox-Song (6) (1).mp3" type="audio/mpeg" id = "aud">
@@ -15,20 +9,6 @@
   </html>  
   <style>
 	  @import url('https://fonts.googleapis.com/css2?family=Monoton&display=swap');
-#timer {
-  font-size: 20px;
-  color: #fff;
-  letter-spacing: -1px;
-}
-#timer span {
-  font-size: 60px;
-  color: #fff;
-  margin: 0 3px 0 15px;
-}
-#timer span:first-child {
-  margin-left: 0;
-}
-  
     body {
 	    
 	background: #222;
@@ -97,42 +77,6 @@
     }
   </style>
   <script>
-var timer;
-
-var compareDate = new Date();
-compareDate.setDate(compareDate.getDate() + 7); //just for this demo today + 7 days
-
-timer = setInterval(function() {
-  timeBetweenDates(compareDate);
-}, 1000);
-
-function timeBetweenDates(toDate) {
-  var dateEntered = toDate;
-  var now = new Date();
-  var difference = dateEntered.getTime() - now.getTime();
-
-  if (difference <= 0) {
-
-    // Timer done
-    clearInterval(timer);
-  
-  } else {
-    
-    var seconds = Math.floor(difference / 1000);
-    var minutes = Math.floor(seconds / 60);
-    var hours = Math.floor(minutes / 60);
-    var days = Math.floor(hours / 0);
-
-    hours %= 0;
-    minutes %= 0;
-    seconds %= 60;
-
-    $("#days").text(days);
-    $("#hours").text(hours);
-    $("#minutes").text(minutes);
-    $("#seconds").text(seconds);
-  }
-}
     var x = document.getElementById("aud");
     x.muted = false;
     x.load();
