@@ -1,234 +1,604 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>The Tale Of Henry</title>
-</head>
-<body>
+<DOCTYPE html>
+  <html>
+	  <div class="instructions">hello. this is the devs. controls= down arrow to go down (careful you cant grow back!) and left and right to move and up is to jump
+	  <div class="wall"><div>
+	  <audio loop autoplay muted src="BeepBox-Song (6) (1).mp3" type="audio/mpeg" id = "aud">
+          </audio>
+  </html>  
+  <style>
+	  @import url('https://fonts.googleapis.com/css2?family=Monoton&display=swap');
+    body {
+	    
+	background: #222;
+    }
+	.instructions {
+	color: #fff;
+	font-family: 'Monoton', cursive;
+	font-size: 10px;
 
-  <div class="container">
-     <div class="card"> <a href="index1.html">
-       <div class="face face1">
-         <div class="content">
-            <i class="fab fa-windows"></i>            
-           <h3>The Original<h3>
-         </div>
-       </div>
-       <div class="face face2">
-         <div class="content">
-           <p>this is the original game. a classic to chillout and play. </p>
-           <a href="#" type="button">Read More</a>
-       </div>
-      </div>
-        </a>
-     </div>
-    
-    <div class="card"> <a href="index2.html">
-       <div class="face face1">
-         <div class="content">
-      <i class="fab fa-android"></i>               
-	<h3>Multiplayer</h3>
-         </div>
-       </div>
-       <div class="face face2">
-         <div class="content">
-           <p>this is the multiplayer mode. and absolute blast to play with friends</p>
-           <a href="#" type="button">Read More</a>
-         </div>
-       </div>
-    </div>
-    
-    
-    <div class="card"> <a href="index3.html">
-       <div class="face face1">
-         <div class="content">
-           <i class="fab fa-apple"></i>
-            <h3>VRESUS</h3>
-         </div>
-       </div>
-       <div class="face face2">
-         <div class="content">
-           <p>VERSUS. a hardcore version of multiplayer. EXTREMELY hard for 1st player</p>
-           <a href="#" type="button">Read More</a>
-         </div>
-       </div>
-	    </a>
-    </div>
-    
-    
-    
-    
-    <div class="card"> <a href="index4.html">
-       <div class="face face1">
-         <div class="content">
-           <i class="fab fa-apple"></i>
-            <h3>BULLET HELL</h3>
-         </div>
-       </div>
-       <div class="face face2">
-         <div class="content">
-           <p>BULLET HELL. new HARDER maps. a hardcore version of The Original. EXTREMELY hard for new players</p>
-           <a href="#" type="button">Read More</a>
-         </div>
-       </div>
-	    </a>
-    </div>
-      <div class="card"> <a href="index5.html">
-       <div class="face face1">
-         <div class="content">
-           <i class="fab fa-apple"></i>
-            <h3>hARDCORE</h3>
-         </div>
-       </div>
-       <div class="face face2">
-         <div class="content">
-           <p>HARDCORE. FOR THE HARDEST MOST DEDICATED PLAYERS. ONLY DEV LEVEL PLAYERS CAN BEAT THIS</p>
-           <a href="#" type="button">Read More</a>
-         </div>
-       </div>
-	    </a>
-    </div>
-  </div>
-  
-</body>
-
+        
+	  }
+.background{
+	table-layout: fixed;
+	border-spacing: 0;
 	
-</html>
-<style>
-	body{
-  display:flex;
-  margin:0;
-  padding:0;
-  min-height: 100vh;
-  background: #444;
-  justify-content: center;
-  align-items: center;
-  font-family: arial;
+    }
+.background td{ 
+	padding: 0;
+    }
+.lava, .actor{ 
+	background: #e55;
+    }
+.wall {
+	background: #444;
+	border: solid 3px #333;
+	box-sizing: content-box;
+    }
+	  .wall2 {
+	background: #bd0808;
+	box-sizing: content-box;
+    }
+	  .wall3 {
+	background: #0300ff;
+	box-sizing: content-box;
+    }
+	   .wall4 {
+	background: #fff;
+	box-sizing: content-box;
+    }
+.actor{
+	position: absolute;
+    }
+.coin{
+	background: #FFD700;
+	background-repeat: none;
+	border-radius: 50%;
+    }
+.player{
+	background: #335699;
+	box-shadow: none;
+    }
+.playercrouch{
+	background: #335699;
+	box-shadow: none;
+    }
+.lost .player {
+	background: rgb(160, 64, 64);
+    }
+    
+.won .player {
+	background: green;
+    }
+.game{
+	position: relative;
+	overflow: hidden;
+    }
+  </style>
+  <script>
+    var x = document.getElementById("aud");
+    x.muted = false;
+    x.load();
+    var LEVELS = [
+  ["                                                                                ",
+   "                                                                                ",
+   "                                                                                ",
+   "                                                                                ",
+   "                                                                                ",
+   "                                                                                ",
+   "               w w y    y    yw w                                 xxx           ",
+   "               w w  y  y y  y w w                  xx      xx    xx!xx          ",
+   "               www   yy   yy  www   o o      xx                  x!!!x          ",
+   "                                                                 xx!xx          ",
+   "                  =                xxxxx                          xvx           ",
+   "                                                                            xx  ",
+   "  xx                                      o o                                x  ",
+   "  x               =     o      =                                             x  ",
+   "  x          y                           xxxxx       =      =      x       o x  ",
+   "  x          xxxx       o                                                    x  ",
+   "  x  @       x  x                       =                        xxxxx       x  ",
+   "  xxxxxxxxxxxx  xxxxxxxxxxxxxxx   xxxxxxxxxxxxxxxxxxxx     xxxxxxx   xxxxxxxxx  ",
+   "                              x   x                  x     x                    ",
+   "                              x!!!x                  x!!!!!x                    ",
+   "                              x!!!x                  x!!!!!x                    ",
+   "                              xxxxx                  xxxxxxx                    ",
+   "                                                                                ",
+   "                                                                                "],
+  ["                                      x!!x                        xxxxxxx                                    x!x  ",
+   "                                      x!!x                     xxxx     xxxx                                 x!x  ",
+   "                                      x!!xxxxxxxxxx           xx           xx                                x!x  ",
+   "                                      xx!!!!!!!!!!xx         xx             xx                               x!x  ",
+   "                                       xxxxxxxxxx!!x         x                                    o   o   o  x!x  ",
+   "                                                xx!x         x     o   o                                    xx!x  ",
+   "                                                 x!x         x                                xxxxxxxxxxxxxxx!!x  ",
+   "                                                 xvx         x     x   x                        !!!!!!!!!!!!!!xx  ",
+   "                                                             xx  |   |   |  xx            xxxxxxxxxxxxxxxxxxxxx   ",
+   "                                                              xx!!!!!!!!!!!xx            v                        ",
+   "                                                               xxxx!!!!!xxxx                                      ",
+   "                                               x     x            xxxxxxx        xxx         xxx                  ",
+   "                                               x     x                           x x         x x                  ",
+   "                                               x     x                             x         x                    ",
+   "                                               x     x                             xx        x                    ",
+   "                                               xx    x                             x         x                    ",
+   "                                               x     x      o  o     x   x         x         x                    ",
+   "               xxxxxxx        xxx   xxx        x     x               x   x         x         x                    ",
+   "              xx     xx         x   x          x     x     xxxxxx    x   x   xxxxxxxxx       x                    ",
+   "             xx       xx        x o x          x    xx               x   x   x               x                    ",
+   "     @       x         x        x   x          x     x               x   x   x               x                    ",
+   "    xxx      x         x        x   x          x     x               x   xxxxx   xxxxxx      x                    ",
+   "    x x      x         x       xx o xx         x     x               x     o     x x         x                    ",
+   "!!!!x x!!!!!!x         x!!!!!!xx     xx!!!!!!!!xx    x!!!!!!!!!!     x     =     x x         x                    ",
+   "!!!!x x!!!!!!x         x!!!!!xx       xxxxxxxxxx     x!!!!!!!xx!     xxxxxxxxxxxxx xx  o o  xx                    ",
+   "!!!!x x!!!!!!x         x!!!!!x    o                 xx!!!!!!xx !                    xx     xx                     ",
+   "!!!!x x!!!!!!x         x!!!!!x                     xx!!!!!!xx  !                     xxxxxxx                      ",
+   "!!!!x x!!!!!!x         x!!!!!xx       xxxxxxxxxxxxxx!!!!!!xx   !                                                  ",
+   "!!!!x x!!!!!!x         x!!!!!!xxxxxxxxx!!!!!!!!!!!!!!!!!!xx    !                                                  ",
+   "!!!!x x!!!!!!x         x!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!xx     !                                                  "],
+  ["                                                                                                              ",
+   "                                                                                                              ",
+   "                                                                                                              ",
+   "                                                                                                              ",
+   "                                                                                                              ",
+   "                                        o                                                                     ",
+   "                                                                                                              ",
+   "                      oooooo            x                                                                     ",
+   "                      xxxxxxxx          x                                                                     ",
+   "                                        x                                                                     ",
+   "                                        x                                                                     ",
+   "                                       xxx                                                                    ",
+   "                                       x x                 !!!        !!!  xxx                                ",
+   "                                       x x                 !x!        !x!                                     ",
+   "      yyyyyy                         xxx xxx                x          x                                      ",
+   "     yyyyyyyyyy                       x   x                 x   oooo   x       xxx                            ",
+   "    xxxwwwwxww                        x   x                 x          x      x!!!x                           ",
+   "     xwwwwwxww                        x   x                 xxxxxxxxxxxx       xxx                            ",
+   "     xxxwwwwxwww                     xx   xx      x   x      x                                                ",
+   "      wwwwwxxxx                       x   xxxxxxxxx   xxxxxxxx              x x                               ",
+   "       wwwwwww                        x   x           x                    x!!!x                              ",
+   "                                      x   x           x                     xxx                               ",
+   "                                     xx   xx          x                                                       ",
+   "                                      x   x= = = =    x            xxx                                        ",
+   "                                      x   x           x           x!!!x                                       ",
+   "                                      x   x    = = = =x     o      xxx       xxx                              ",
+   "                                     xx   xx          x                     x!!!x                             ",
+   "                              o   o   x   x           x     x                xxv        xxx                   ",
+   "                                      x   x           x              x                 x!!!x                  ",
+   "                             xxx xxx xxx xxx     o o  x!!!!!!!!!!!!!!x                   vx                   ",
+   "                             x xxx x x xxx x          x!!!!!!!!!!!!!!x                                        ",
+   "                             x             x   xxxxxxxxxxxxxxxxxxxxxxx                                        ",
+   "                             xx           xx                                         xxx                      ",
+   "  xxx                         x     x     x                                         x!!!x                xxx  ",
+   "  x x                         x    xxx    x                                          xxx                 x x  ",
+   "  x                           x    xxx    xxxxxxx                        xxxxx                             x  ",
+   "  x                           x           x                              x   x                             x  ",
+   "  x                           xx          x                              x x x                             x  ",
+   "  x                                       x       |xxxx|    |xxxx|     xxx xxx                             x  ",
+   "  x                xxx             o o    x                              x         xxx                     x  ",
+   "  x               xxxxx       xx          x                             xxx       x!!!x          x         x  ",
+   "  x               oxxxo       x    xxx    x                             x x        xxx          xxx        x  ",
+   "  x                xxx        xxxxxxxxxxxxx  x oo x    x oo x    x oo  xx xx                    xxx        x  ",
+   "  x      @          x         x           x!!x    x!!!!x    x!!!!x    xx   xx                    x         x  ",
+   "  xxxxxxxxxxxxxxxxxxxxxxxxxxxxx           xxxxxxxxxxxxxxxxxxxxxxxxxxxxx     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  ",
+   "                                                                                                             ",
+   "                                                                                                             "],
+  ["                                                                                                              ",
+   "                                                                                                              ",
+   "                                                                                                              ",
+   "                                                          xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx         ",
+   "      x        x      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx                                                    ",
+   "      !        !      x  x x xx                                      xxxxxxxx       xxxxxxx                   ",
+   "           x          x x x x x                                     xx      x  xxx  x      xxxxxxxx           ",
+   "           !          xx x x  x                                      x z    xxxx  xxx z    x       x          ",
+   "      x               x x x   x                                      x zz   x       x zz   x        x         ",
+   "      !               xx x    x                                       xxxxxx         xxxxxx          x        ",
+   "           x          x x     x                                                                               ",
+   "     x     !          xx      x                                                                               ",
+   "     !                                            o                                                           ",
+   "x xx x xx xxx  x x xxxxxxxx xxxxxxxx xxxxxxxxxxxxxx                                                           ",
+   "                                     x            xx                                                          ",
+   "                                     x            x x                                                         ",
+   "                                     x            x  x                                                        ",
+   "                                     x            x   x    xxxxxxxxxxxxxxxxxxxx                               ",
+   "                                     x            x    x   xxxxxxxxxxxxxxxxxxxx                               ",
+   " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx            x     x                                                     ",
+   "                                                  x      xxxxxxxxxxxxxxxxxxxxxx          xxxxxxxx             ",
+   "                            xxxxxxxxxxxxxxxxxxxxx x       xxxxxxxxxxxxxxxxxxxxx         x        x            ",
+   "                           x                                          ooooooo         x           x           ",
+   "                          x                 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx        x             x          ",
+   "                         x                  x                               x                       x         ",
+   "                                            x        xxxxxxxxxxxxxx  x      x                        x        ",
+   "               ooooooooooooooooooooooooooooox         x           x  x      xxxxxxxxxxxxxxxxxxxxx    x        ",
+   "xxxxxxxxxxxxxxxooooooooooooooooooooooooooooox         x           x  x      o                       x         ",
+   "              xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx        xx     o     x  xxxxxxxxxxxxxxxxxx            x          ",
+   "                                                      x                                x          x           ",
+   "              xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  x  x  xxxxxxxxxxxxxxxxxxxxxxxxxx         o        x            ",
+   "   @                                                                           x         x      x             ",
+   "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "                                                                                                              "],
+  ["                                                                                                              ",
+   "                                                                                                              ",
+   "                                                                                                              ",                                                                                                
+   "             =                             =                                                                  ",                                                          
+   "                                                                         =                                    ",                                                                                                
+   "       =                                        =                                                             ",                                                                                                
+   "           =                 =           =              =       =       =                                     ",                                                                                              
+   "  @                                                                             =              =             o",                                                                                               
+   "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx!x!x!!x!!!!x!!!!x!!!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",],
+];
+
+
+function Vector(x, y) {
+	this.x = x; this.y = y;
 }
 
-.container{
-  width: 1000px;
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap:wrap;
-  
+Vector.prototype.plus = function(other) {
+	return new Vector(this.x + other.x, this.y + other.y);
+};
+
+Vector.prototype.times = function(scale) {
+	return new Vector(this.x * scale, this.y * scale);
+};
+
+// Note: uppercase words are used that means constructor are values
+var actorchars =  {
+	"@": Player,
+	"o": Coin,
+	"=": Lava,
+	"|": Lava,
+	"v": Lava
+};
+		
+function Player(pos) {
+	this.pos = pos.plus(new Vector(0, -.5));
+	this.size = new Vector(.5, 1);
+	this.speed = new Vector(0, 0);
 }
+Player.prototype.type = "player";
 
-.container .card{
-  position: relative;
+function Lava(pos, ch) {
+	this.pos = pos;
+	this.size = new Vector(1, 1);
+	if (ch === "=")
+		this.speed = new Vector(2, 0);
+	else if (ch === '|')
+		this.speed = new Vector(0, 2);
+	else if (ch === 'v'){
+		this.speed = new Vector(0, 3); 		   
+		this.repeatPos = pos;
+	}
 }
+Lava.prototype.type = "Lava";
 
-.container .card .face{
-  width:300px;
-  height: 200px;
-  transition:.4s;
-  
+function Coin(pos) {
+	this.basePos = this.pos = pos;
+	this.size = new Vector(.6, .6);
+	// take a look back
+	this.wobble = Math.random() * Math.PI * 2;
 }
+Coin.prototype.type = "coin";
 
-.container .card .face.face1{
-  position: relative;
-  background: #333;
-  display: flex;
-  justify-content: center;
-  align-content:center;
-  align-items: center;
-  z-index: 1;
-  transform: translateY(100px);
-}
+Level.prototype.isFinished = function() {
+  return this.status != null && this.finishDelay < 0;
+};
 
-.container .card:hover .face.face1{
-  transform: translateY(0);
-  box-shadow:
-    inset 0 0 60px whitesmoke,
-    inset 20px 0 80px #f0f,
-    inset -20px 0 80px #0ff,
-    inset 20px 0 300px #f0f,
-    inset -20px 0 300px #0ff,
-    0 0 50px #fff,
-    -10px 0 80px #f0f,
-    10px 0 80px #0ff;
-   
-}
-
-
-.container .card .face.face1 .content{
-  opacity: .2;
-  transition:  0.5s;
-  text-align: center;
-  
-   
-  
-  
- 
-
-}
-
-.container .card:hover .face.face1 .content{
-  opacity: 1;
- 
-}
-
-.container .card .face.face1 .content i{
-  font-size: 3em;
-  color: white;
-  display: inline-block;
-   
-}
-
-.container .card .face.face1 .content h3{
-  font-size: 1em;
-  color: white;
-  text-align: center;
-  
-
-}
-
-.container .card .face.face1 .content a{
-   transition: .5s;
-}
-
-.container .card .face.face2{
-   position: relative;
-   background: whitesmoke;
-   display: flex;
-   align-items: center;
-   justify-content: center;
-   padding: 20px;
-  box-sizing: border-box;
-  box-shadow: 0 20px 50px rgba(0,0,0,.8);
-  transform: translateY(-100px);
-}
-
-.container .card:hover .face.face2{
-    transform: translateY(0);
-
-
-}
-
-.container .card .face.face2 .content p, a{
-  font-size: 10pt;
-  margin: 0 ;
-  padding: 0;
-  color:#333;
-}
-
-.container .card .face.face2 .content a{
-  text-decoration:none;
-  color: black;
-  box-sizing: border-box;
-  outline : 1px dashed #333;
-  padding: 10px;
-  margin: 15px 0 0;
-  display: inline-block;
-}
-
-.container .card .face.face2 .content a:hover{
-  background: #333 ;
-  color: whitesmoke; 
-  box-shadow: inset 0px 0px 10px rgba(0,0,0,0.5);
-}
-
-</style>
-	<script>
+function Level(plan) {
+	this.width = plan[0].length;
+	this.height = plan.length;
+	this.grid = [];
+	this.actors = [];
 	
-		</script>
+	for (var y = 0; y < this.height; y++) {
+		var line = plan[y],  gridLine = [];
+		for (var x = 0; x < this.width; x++) {
+			var ch = line[x], fieldType = null;
+			var Actor = actorchars[ch];
+			if (Actor)
+				this.actors.push(new Actor(new Vector(x, y), ch));
+			else if (ch === "x")
+				fieldType = "wall";
+			else if (ch === "w")
+				fieldType = "wall2";
+			else if (ch === "y")
+				fieldType = "wall3";
+			else if (ch === "z")
+				fieldType = "wall4";
+			else if (ch === "!")
+				fieldType = "lava";
+			else if (ch === "|")
+				fieldType = "lava";
+			else if (ch === "=")
+				fieldType = "lava";
+			else if (ch === "v"){
+				fieldType = "lava";
+				console.log(fieldType);
+			}
+			gridLine.push(fieldType)
+		}
+		this.grid.push(gridLine);
+	}
+	this.player = this.actors.filter(function(actor) {
+		return actor.type === "player"
+	})[0];	
+	this.status = this.finishDelay = null;
+}
+
+function element(name, className) {
+	var elem = document.createElement(name);
+	if(className) elem.className = className;
+	return elem;
+}
+
+function DOMDisplay(parent, level) {
+	this.wrap = parent.appendChild(element("div", "game"));
+	this.level = level;
+	
+	this.wrap.appendChild(this.drawBackground());
+	this.actorLayer = null;
+	this.drawFrame();
+}
+
+
+var scale = 15;
+
+
+DOMDisplay.prototype.drawBackground = function() {
+	var table = element("table", "background");
+	table.style.width = this.level.width * scale + "px";
+	table.style.height = this.level.height * scale + "px";
+	this.level.grid.forEach(function(row) {
+  var rowElement = table.appendChild(element("tr"));
+		rowElement.style.height = scale + "px";
+		row.forEach(function(type) {
+			rowElement.appendChild(element("td", type));
+		});
+	});
+	return table;
+};
+
+DOMDisplay.prototype.drawActors = function() {
+	var wrap = element("div");
+	this.level.actors.forEach(function(actor) {
+		var rect = wrap.appendChild(element("div", "actor " + actor.type));
+		rect.style.width = actor.size.x * scale + "px";
+		rect.style.height = actor.size.y * scale + "px";
+		rect.style.left = actor.pos.x * scale + "px";
+		rect.style.top = actor.pos.y * scale + "px";
+	});
+	return wrap;
+}
+
+DOMDisplay.prototype.drawFrame = function() {
+	if (this.actorLayer)
+		this.wrap.removeChild(this.actorLayer);
+	this.actorLayer = this.wrap.appendChild(this.drawActors());
+	this.wrap.className = "game " + (this.level.status || "");
+	this.scrollPlayerIntoView();
+};
+
+
+// clear it later
+DOMDisplay.prototype.scrollPlayerIntoView = function() {
+  var width = this.wrap.clientWidth;
+  var height = this.wrap.clientHeight;
+  var margin = width / 3;
+
+  // The viewport
+  var left = this.wrap.scrollLeft, right = left + width;
+  var top = this.wrap.scrollTop, bottom = top + height;
+
+  var player = this.level.player;
+  var center = player.pos.plus(player.size.times(0.5))
+                 .times(scale);
+
+  if (center.x < left + margin)
+    this.wrap.scrollLeft = center.x - margin;
+  else if (center.x > right - margin)
+    this.wrap.scrollLeft = center.x + margin - width;
+  if (center.y < top + margin)
+    this.wrap.scrollTop = center.y - margin;
+  else if (center.y > bottom - margin)
+    this.wrap.scrollTop = center.y + margin - height;
+};
+
+DOMDisplay.prototype.clear = function() {
+	this.wrap.parentNode.removeChild(this.wrap);
+};
+
+Level.prototype.obstacleAt = function(pos, size) {
+  var xStart = Math.floor(pos.x);
+  var xEnd = Math.ceil(pos.x + size.x);
+  var yStart = Math.floor(pos.y);
+  var yEnd = Math.ceil(pos.y + size.y);
+
+  if (xStart < 0 || xEnd > this.width || yStart < 0)
+    return "wall";
+  if (yEnd > this.height)
+    return "lava";
+  for (var y = yStart; y < yEnd; y++) {
+    for (var x = xStart; x < xEnd; x++) {
+      var fieldType = this.grid[y][x];
+      if (fieldType) return fieldType;
+    }
+  }
+};
+
+Level.prototype.actorAt = function(actor) {
+  for (var i = 0; i < this.actors.length; i++) {
+    var other = this.actors[i];
+    if (other != actor &&
+        actor.pos.x + actor.size.x > other.pos.x &&
+        actor.pos.x < other.pos.x + other.size.x &&
+        actor.pos.y + actor.size.y > other.pos.y &&
+        actor.pos.y < other.pos.y + other.size.y)
+      return other;
+  }
+};
+
+var maxStep = 0.05;
+
+Level.prototype.animate = function(step, keys) {
+  if (this.status != null)
+    this.finishDelay -= step;
+
+  while (step > 0) {
+    var thisStep = Math.min(step, maxStep);
+    this.actors.forEach(function(actor) {
+      actor.act(thisStep, this, keys);
+    }, this);
+    step -= thisStep;
+  }
+};
+
+
+Lava.prototype.act = function(step, level) {
+  var newPos = this.pos.plus(this.speed.times(step));
+  if (!level.obstacleAt(newPos, this.size))
+    this.pos = newPos;
+  else if (this.repeatPos)
+    this.pos = this.repeatPos;
+  else
+    this.speed = this.speed.times(-1);
+};
+
+var wobbleSpeed = 8, wobbleDist = 0.07;
+
+Coin.prototype.act = function(step) {
+  this.wobble += step * wobbleSpeed;
+  var wobblePos = Math.sin(this.wobble) * wobbleDist;
+  this.pos = this.basePos.plus(new Vector(0, wobblePos));
+};
+
+
+var playerXSpeed = 10;
+var playercrouch = .01;
+Player.prototype.moveX = function(step, level, keys) {
+  this.speed.x = 0;
+  if (keys.left) this.speed.x -= playerXSpeed;
+  if (keys.right) this.speed.x += playerXSpeed;
+  if (keys.crouch) this.size.y -= playercrouch;
+  var motion = new Vector(this.speed.x * step, 0);
+  var newPos = this.pos.plus(motion);
+  var obstacle = level.obstacleAt(newPos, this.size);
+  if (obstacle)
+    level.playerTouched(obstacle);
+  else
+    this.pos = newPos;
+};
+
+var gravity = 30;
+var jumpSpeed = 17;
+
+Player.prototype.moveY = function(step, level, keys) {
+  this.speed.y += step * gravity;
+  var motion = new Vector(0, this.speed.y * step);
+  var newPos = this.pos.plus(motion);
+  var obstacle = level.obstacleAt(newPos, this.size);
+  if (obstacle) {
+    level.playerTouched(obstacle);
+    if (keys.up && this.speed.y > 0)
+      this.speed.y = -jumpSpeed;
+    else
+      this.speed.y = 0;
+  } else {
+    this.pos = newPos;
+  }
+};
+
+Player.prototype.act = function(step, level, keys) {
+  this.moveX(step, level, keys);
+  this.moveY(step, level, keys);
+
+  var otherActor = level.actorAt(this);
+  if (otherActor)
+    level.playerTouched(otherActor.type, otherActor);
+
+  // Losing animation
+  if (level.status == "lost") {
+    this.pos.y += step;
+    this.size.y -= step;
+  }
+};
+
+Level.prototype.playerTouched = function(type, actor) {
+  if (type == "lava" && this.status == null) {
+    this.status = "lost";
+    this.finishDelay = 1;
+  }
+	if (type == "Lava" && this.status == null) {
+    this.status = "lost";
+    this.finishDelay = 1;
+  }else if (type == "coin") {
+    this.actors = this.actors.filter(function(other) {
+      return other != actor;
+    });
+    if (!this.actors.some(function(actor) {
+      return actor.type == "coin";
+    })) {
+      this.status = "won";
+      this.finishDelay = 1;
+    }
+  }
+};
+
+var arrowCodes = {37: "left", 38: "up", 39: "right", 40: "crouch", 65: "left", 87: "up", 68: "right", 83: "crouch"};
+
+function trackKeys(codes) {
+  var pressed = Object.create(null);
+  function handler(event) {
+    if (codes.hasOwnProperty(event.keyCode)) {
+      var down = event.type == "keydown";
+      pressed[codes[event.keyCode]] = down;
+      event.preventDefault();
+    }
+  }
+  addEventListener("keydown", handler);
+  addEventListener("keyup", handler);
+  return pressed;
+}
+
+function runAnimation(frameFunc) {
+  var lastTime = null;
+  function frame(time) {
+    var stop = false;
+    if (lastTime != null) {
+      var timeStep = Math.min(time - lastTime, 100) / 1000;
+      stop = frameFunc(timeStep) === false;
+    }
+    lastTime = time;
+    if (!stop)
+      requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+
+var arrows = trackKeys(arrowCodes);
+
+function runLevel(level, Display, andThen) {
+  var display = new Display(document.body, level);
+  runAnimation(function(step) {
+    level.animate(step, arrows);
+    display.drawFrame(step);
+    if (level.isFinished()) {
+      display.clear();
+      if (andThen)
+        andThen(level.status);
+      return false;
+    }
+  });
+}
+
+function runGame(plans, Display) {
+  function startLevel(n) {
+    runLevel(new Level(plans[n]), Display, function(status) {
+      if (status == "lost")
+        startLevel(n);
+      else if (n < plans.length - 1)
+        startLevel(n + 1);
+      else
+        alert("You win bacon bits >:)");
+    });
+  }
+  startLevel(0);
+}
+
+runGame(LEVELS, DOMDisplay);
+  </script>
