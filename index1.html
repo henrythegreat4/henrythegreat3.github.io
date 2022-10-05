@@ -1,6 +1,9 @@
 <DOCTYPE html>
   <html>
-	  <div class="instructions">hello. this is the devs. controls= down arrow to go down (careful you cant grow back!) and left and right to move and up is to jump
+	  <div class="instructions"><div id="timer">
+  
+  <button id="seconds" onclick="countDown()">hello</button>
+</div>hello. this is the devs. controls= down arrow to go down (careful you cant grow back!) and left and right to move and up is to jump
 	  <div class="wall"><div>
 	  <audio loop autoplay muted src="BeepBox-Song (6) (1).mp3" type="audio/mpeg" id = "aud">
           </audio>
@@ -225,7 +228,27 @@
    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx!x!x!!x!!!!x!!!!x!!!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",],
 ];
 
+var timer;
+ //just for this demo today + 7 days
 
+timer = setInterval(function() {
+}, 1000);
+
+
+
+function countDown() {
+  var seconds = 60;
+  let result;
+  
+  while (true) {
+    if (seconds == 0) {
+        System.out.println("Good!");
+        break; // This ends the loop
+    } else if (seconds > 0) 
+      document.getElementById("seconds").innerText = (seconds - 1) + "seconds";
+        }
+}
+countDown()
 function Vector(x, y) {
 	this.x = x; this.y = y;
 }
