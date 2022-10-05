@@ -2,7 +2,7 @@
   <html>
 	  <div class="instructions"><div id="timer">
   
-  <button id="seconds" onclick="countDown()">hello</button>
+  <button id="seconds" onload="countDown()"></button>
 </div>hello. this is the devs. controls= down arrow to go down (careful you cant grow back!) and left and right to move and up is to jump
 	  <div class="wall"><div>
 	  <audio loop autoplay muted src="BeepBox-Song (6) (1).mp3" type="audio/mpeg" id = "aud">
@@ -133,14 +133,13 @@ function countDown() {
   let result;
   
   while (true) {
-    if (seconds == 0) {
-        System.out.println("Good!");
-        break; // This ends the loop
+    if (seconds == 0) 
+        break;  
     } else if (seconds > 0) 
       document.getElementById("seconds").innerText = (seconds - 1) + "seconds";
         }
 }
-countDown()
+
 Vector.prototype.plus = function(other) {
 	return new Vector(this.x + other.x, this.y + other.y);
 };
@@ -510,6 +509,7 @@ function runGame(plans, Display) {
   }
   startLevel(0);
 }
-
+countDown();
 runGame(LEVELS, DOMDisplay);
+	  
   </script>
