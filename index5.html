@@ -139,7 +139,7 @@ function countDown() {
       document.getElementById("seconds").innerText = (seconds - 1) + "seconds";
         }
 }
-
+countDown();
 Vector.prototype.plus = function(other) {
 	return new Vector(this.x + other.x, this.y + other.y);
 };
@@ -509,7 +509,6 @@ function runGame(plans, Display) {
   }
   startLevel(0);
 }
-countDown();
 runGame(LEVELS, DOMDisplay);
 	  
   </script>
